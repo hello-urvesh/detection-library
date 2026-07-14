@@ -1,0 +1,31 @@
+title: Cron Persistence Created by OpenClaw/ClawHub Skill Marketplace Process
+id: 7cb08f5e-eacb-4a80-a2d2-9d108031a6f3
+author: detections.ai
+date: '2026-07-14'
+modified: '2026-07-14'
+tags:
+  - attack.persistence
+  - attack.t1053.003
+logsource:
+  category: process_creation
+  product: linux
+detection:
+  selection_parent:
+    ParentImage|contains:
+      - 'openclaw'
+      - 'clawhub'
+  selection_cron_cmd:
+    CommandLine|contains:
+      - 'crontab'
+      - '/etc/cron.d'
+      - '/etc/crontab'
+      - '/var/spool/cron'
+  condition: selection_parent and selection_cron_cmd
+falsepositives:
+  - Legitimate skill or agent updater that intentionally schedules maintenance tasks via cron
+level: high
+fields:
+  - ParentImage
+  - Image
+  - CommandLine
+  - User
